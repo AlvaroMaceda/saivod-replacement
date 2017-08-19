@@ -19,6 +19,17 @@ module base_curved(width, depth, height) {
     }
 }
 
+module base_spring_dock() {
+    EXTERNAL_RADIUS = 7;
+    INTERNAL_RADIUS = 6; 
+    HEIGHT = 1;
+    DISPLACEMENT = 1;
+    difference() {
+        translate([0,0,-1]) cylinder(h=HEIGHT+DISPLACEMENT,r=EXTERNAL_RADIUS);
+        translate([0,0,-DISPLACEMENT]) cylinder(h=HEIGHT+2*DISPLACEMENT,r=INTERNAL_RADIUS);
+    }
+}
+
 module piece() {
     
     BASE_WIDTH = 30;
@@ -33,16 +44,7 @@ module piece() {
     shaft(SHAFT_X,SHAFT_Y);
 }
 
-module base_spring_dock() {
-    EXTERNAL_RADIUS = 7;
-    INTERNAL_RADIUS = 6; 
-    HEIGHT = 1;
-    DISPLACEMENT = 1;
-    difference() {
-        translate([0,0,-1]) cylinder(h=HEIGHT+DISPLACEMENT,r=EXTERNAL_RADIUS);
-        translate([0,0,-DISPLACEMENT]) cylinder(h=HEIGHT+2*DISPLACEMENT,r=INTERNAL_RADIUS);
-    }
-}
+
 
 module shaft(x,y) {
     SHAFT_HEIGHT = 12;
@@ -53,31 +55,53 @@ module shaft(x,y) {
 }
 
 
-module test() {
+module flap() {
     
-    PROFUNDIDAD_PESTANYA = 2;
-    ALTO_PESTANYA = 10;
+    FLAP_HEIGHT = 10;
+    FLAP_DEPTH = 2;
+    MARGIN = 2;
     
-    size = [ALTO_PESTANYA, PROFUNDIDAD_PESTANYA , ALTO_PESTANYA];
+    size = [FLAP_HEIGHT, FLAP_DEPTH , FLAP_HEIGHT];
     
-    radio = sqrt(2*pow(ALTO_PESTANYA,2));
-    
+    radio = sqrt(2*pow(FLAP_HEIGHT,2));
     
     difference() {
         
-        color("red")
         cube(size);
         
-        translate([0,-0,ALTO_PESTANYA])
-            rotate([0,45,0])
-                cube(radio,true);
-     
+        translate([0,-MARGIN,0]) // To avoid surface connection
+            rotate([0,-45,0])
+                cube(radio,false);
     }
-    
-    // Calcular alto a partir de la diagonal : diagonal/sqrt(2)
 }
+
+
+module test() {
+  flap();
+}
+
+module test2() {
+    
+    radio = 10;
+    
+    rotate([0,-45,0])
+        cube(radio,false);
+    
+}
+
 
 $fn=50;
 
 //piece();
 test();
+//test2();
+
+
+
+
+
+
+
+
+
+
