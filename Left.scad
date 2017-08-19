@@ -55,9 +55,29 @@ module shaft(x,y) {
 
 module test() {
     
+    PROFUNDIDAD_PESTANYA = 2;
+    ALTO_PESTANYA = 10;
+    
+    size = [ALTO_PESTANYA, PROFUNDIDAD_PESTANYA , ALTO_PESTANYA];
+    
+    radio = sqrt(2*pow(ALTO_PESTANYA,2));
+    
+    
+    difference() {
+        
+        color("red")
+        cube(size);
+        
+        translate([0,-0,ALTO_PESTANYA])
+            rotate([0,45,0])
+                cube(radio,true);
+     
+    }
+    
+    // Calcular alto a partir de la diagonal : diagonal/sqrt(2)
 }
 
 $fn=50;
 
-piece();
-//test();
+//piece();
+test();
