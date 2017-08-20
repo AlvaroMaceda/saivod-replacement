@@ -55,15 +55,12 @@ module shaft(x,y) {
 }
 
 
-module flap() {
-    
-    FLAP_HEIGHT = 10;
-    FLAP_DEPTH = 2;
+module flap_hook(width,depth) {
+   
     MARGIN = 2;
     
-    size = [FLAP_HEIGHT, FLAP_DEPTH , FLAP_HEIGHT];
-    
-    radio = sqrt(2*pow(FLAP_HEIGHT,2));
+    size = [width, depth , width];
+    radio = sqrt(2*pow(width,2));
     
     difference() {
         
@@ -75,18 +72,30 @@ module flap() {
     }
 }
 
-
-module test() {
-  flap();
+module flap_support(width,height,depth) {
+    translate([-width,0,0])
+        cube([width,depth,height]);  
 }
 
-module test2() {
+
+module flap() {
     
-    radio = 10;
+    FLAP_HOOK_WIDTH = 10;
+    FLAP_HOOK_HEIGHT = FLAP_HOOK_WIDTH; // Not tested with non square hooks
+    FLAP_HOOK_DEPTH = 2;
     
-    rotate([0,-45,0])
-        cube(radio,false);
+    FLAP_SUPPORT_WIDTH = 5;
+    FLAP_SUPPORT_HEIGHT = 20;
+    FLAP_SUPPORT_DEPTH = 2;
     
+    translate([-FLAP_HOOK_WIDTH-FLAP_SUPPORT_WIDTH,0,FLAP_SUPPORT_HEIGHT-FLAP_HOOK_HEIGHT])
+        flap_hook(FLAP_HOOK_WIDTH,FLAP_HOOK_DEPTH);
+    flap_support(FLAP_SUPPORT_WIDTH,FLAP_SUPPORT_HEIGHT,FLAP_SUPPORT_DEPTH);
+}
+
+module test() {
+    
+    flap();
 }
 
 
