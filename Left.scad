@@ -106,18 +106,9 @@ module flap() {
         }
 }
 
-module test() {
-    //mirror()
-    flap();
-}
-
-
-$fn=50;
+$fn=100;
 
 piece();
-//test();
-//test2();
-
 
 
 
