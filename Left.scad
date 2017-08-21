@@ -42,6 +42,16 @@ module piece() {
     base_curved(BASE_WIDTH,BASE_DEPTH,BASE_CURVED_HEIGHT);
     base_spring_dock();
     shaft(SHAFT_X,SHAFT_Y);
+    
+    LEFT_FLAP_X = -14;
+    RIGHT_FLAP_X = 14;
+    
+    translate([LEFT_FLAP_X,0,0])
+        flap();
+   
+    translate([RIGHT_FLAP_X,0,0])
+        mirror()
+            flap();
 }
 
 
@@ -57,7 +67,7 @@ module shaft(x,y) {
 
 module flap_hook(width,depth) {
    
-    MARGIN = 2;
+    MARGIN = 1;
     
     size = [width, depth , width];
     radio = sqrt(2*pow(width,2));
@@ -65,10 +75,10 @@ module flap_hook(width,depth) {
     difference() {
         
         cube(size);
-        
+
         translate([0,-MARGIN,0]) // To avoid surface connection
             rotate([0,-45,0])
-                cube(radio,false);
+                cube([radio,depth+2*MARGIN,radio],false);
     }
 }
 
@@ -80,29 +90,32 @@ module flap_support(width,height,depth) {
 
 module flap() {
     
-    FLAP_HOOK_WIDTH = 10;
+    FLAP_HOOK_WIDTH = 3;
     FLAP_HOOK_HEIGHT = FLAP_HOOK_WIDTH; // Not tested with non square hooks
-    FLAP_HOOK_DEPTH = 2;
+    FLAP_HOOK_DEPTH = 5;
     
-    FLAP_SUPPORT_WIDTH = 5;
-    FLAP_SUPPORT_HEIGHT = 20;
-    FLAP_SUPPORT_DEPTH = 2;
+    FLAP_SUPPORT_WIDTH = 2;
+    FLAP_SUPPORT_HEIGHT = 7;
+    FLAP_SUPPORT_DEPTH = FLAP_HOOK_DEPTH;
     
-    translate([-FLAP_HOOK_WIDTH-FLAP_SUPPORT_WIDTH,0,FLAP_SUPPORT_HEIGHT-FLAP_HOOK_HEIGHT])
-        flap_hook(FLAP_HOOK_WIDTH,FLAP_HOOK_DEPTH);
-    flap_support(FLAP_SUPPORT_WIDTH,FLAP_SUPPORT_HEIGHT,FLAP_SUPPORT_DEPTH);
+    translate([0,-FLAP_HOOK_DEPTH/2,0])
+        mirror() {   
+            translate([-FLAP_HOOK_WIDTH-FLAP_SUPPORT_WIDTH,0,FLAP_SUPPORT_HEIGHT-FLAP_HOOK_HEIGHT])
+                flap_hook(FLAP_HOOK_WIDTH,FLAP_HOOK_DEPTH);
+            flap_support(FLAP_SUPPORT_WIDTH,FLAP_SUPPORT_HEIGHT,FLAP_SUPPORT_DEPTH);
+        }
 }
 
 module test() {
-    
+    //mirror()
     flap();
 }
 
 
 $fn=50;
 
-//piece();
-test();
+piece();
+//test();
 //test2();
 
 
