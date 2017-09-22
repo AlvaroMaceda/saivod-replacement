@@ -2,7 +2,7 @@ MEASURE_TO_BE_REWRITTEN = 10;
 
 module base_curved(width, depth, height) {
     
-    SLICE_HEIGHT = 0.5; // This value is the part we add to the sfere to be cutted. It's adjusted empirically
+    SLICE_HEIGHT = 0.3; // This value is the part we add to the sfere to be cutted. It's adjusted empirically
     
     difference() {
     
@@ -21,7 +21,7 @@ module base_curved(width, depth, height) {
 
 module base_spring_dock() {
     EXTERNAL_RADIUS = 7;
-    INTERNAL_RADIUS = 6; 
+    INTERNAL_RADIUS = 6.3; 
     HEIGHT = 1;
     DISPLACEMENT = 1;
     difference() {
@@ -30,35 +30,12 @@ module base_spring_dock() {
     }
 }
 
-module piece() {
-    
-    BASE_WIDTH = 30;
-    BASE_DEPTH = 16;
-    BASE_CURVED_HEIGHT = 4;    // Height of the curved zone
-    SHAFT_X = -5.2;              
-    SHAFT_Y = -5.2;
-    SHAFT_POSITION = [SHAFT_X,SHAFT_Y,0]; // Position of the shaft, relative to the center of the base
-    
-    base_curved(BASE_WIDTH,BASE_DEPTH,BASE_CURVED_HEIGHT);
-    base_spring_dock();
-    shaft(SHAFT_X,SHAFT_Y);
-    
-    LEFT_FLAP_X = -14;
-    RIGHT_FLAP_X = 14;
-    
-    translate([LEFT_FLAP_X,0,0])
-        flap();
-   
-    translate([RIGHT_FLAP_X,0,0])
-        mirror()
-            flap();
-}
 
 
 
 module shaft(x,y) {
     SHAFT_HEIGHT = 12;
-    SHAFT_RADIUS = 1;
+    SHAFT_RADIUS = 1.5;
     
     translate([x,y,0])
         cylinder(r=SHAFT_RADIUS,h=SHAFT_HEIGHT,center=false);
@@ -90,11 +67,11 @@ module flap_support(width,height,depth) {
 
 module flap() {
     
-    FLAP_HOOK_WIDTH = 3;
+    FLAP_HOOK_WIDTH = 1;
     FLAP_HOOK_HEIGHT = FLAP_HOOK_WIDTH; // Not tested with non square hooks
     FLAP_HOOK_DEPTH = 5;
     
-    FLAP_SUPPORT_WIDTH = 2;
+    FLAP_SUPPORT_WIDTH = 1;
     FLAP_SUPPORT_HEIGHT = 7;
     FLAP_SUPPORT_DEPTH = FLAP_HOOK_DEPTH;
     
@@ -105,6 +82,31 @@ module flap() {
             flap_support(FLAP_SUPPORT_WIDTH,FLAP_SUPPORT_HEIGHT,FLAP_SUPPORT_DEPTH);
         }
 }
+
+module piece() {
+    
+    BASE_WIDTH = 30;
+    BASE_DEPTH = 16;
+    BASE_CURVED_HEIGHT = 3.5;    // Height of the curved zone
+    SHAFT_X = -5.6;              
+    SHAFT_Y = -5.6;
+    SHAFT_POSITION = [SHAFT_X,SHAFT_Y,0]; // Position of the shaft, relative to the center of the base
+    
+    base_curved(BASE_WIDTH,BASE_DEPTH,BASE_CURVED_HEIGHT);
+    base_spring_dock();
+    shaft(SHAFT_X,SHAFT_Y);
+    
+    LEFT_FLAP_X = -14;
+    RIGHT_FLAP_X = 14;
+    
+    translate([LEFT_FLAP_X,0,0])
+        flap();
+   
+    translate([RIGHT_FLAP_X,0,0])
+        mirror()
+            flap();
+}
+
 
 $fn=100;
 
